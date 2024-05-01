@@ -8,7 +8,6 @@ export const NavBarTabs = () => {
 		{
 			path: '/profile',
 			label: 'Profile',
-			isSecure: true,
 		},
 		{
 			path: '/public',
