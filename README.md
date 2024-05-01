@@ -46,6 +46,7 @@ Next, locate the **"Basic Information"** section. You will need the **"Domain"**
 
 Once you click the "Deploy" button, the Vercel deploy workflow will show up. On the **"Configure Project"** section, ensure that you use the following values for the **"Required Environment Variables"**:
 
+### Environment Variables
 <table>
   <thead>
     <tr>
