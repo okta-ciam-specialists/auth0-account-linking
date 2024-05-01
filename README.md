@@ -1,12 +1,16 @@
 # React Authentication on Vercel
 
-This JavaScript template demonstrates **how to implement user authentication** in React applications using Auth0. This template uses the React Router 6 library.
+This Typescript template demonstrates **how to implement user authentication** in React applications using Auth0 + Typescript + Material UI components. _This template uses the React Router **6** library._
 
-This template is based on a code sample is part of the ["Auth0 Developer Center"](https://developer.auth0.com/resources/code-samples/spa/react), a place where you can explore the authentication and authorization features of the Auth0 Identity Platform.
+This template is based on a code sample from the ["Auth0 Developer Center"](https://developer.auth0.com/resources/code-samples/spa/react), a place where you can explore the authentication and authorization features of the Auth0 Identity Platform.
 
 ## Quick Auth0 Set Up
 
-**First and foremost, if you haven't already, [sign up for an Auth0 account](https://auth0.com/signup?utm_source=partner&utm_medium=vercel&utm_campaign=2023-03%7CINB-ORG%7CVercel-Auth0-SignupUserCreationForm-SU&ocid=7014z000000zJItAAM-aPA4z0000008OZeGAM&utm_id=aNK4z000000blT4GAI) to connect your application with the Auth0 Identity Platform.**
+> [!CAUTION]
+> Yuu will need an Auth0 account in order to proceed.
+>
+> If you have not signed up for an Auth0 account [do so now](https://auth0.com/signup?utm_source=partner&utm_medium=vercel&utm_campaign=2023-03%7CINB-ORG%7CVercel-Auth0-SignupUserCreationForm-SU&ocid=7014z000000zJItAAM-aPA4z0000008OZeGAM&utm_id=aNK4z000000blT4GAI)!
+>
 
 Next, you'll connect your Single-Page Application (SPA) with Auth0. You'll need to create an application registration in the Auth0 Dashboard and get two configuration values: the **Auth0 Domain** and the **Auth0 Client ID**.
 
@@ -15,21 +19,24 @@ Next, you'll connect your Single-Page Application (SPA) with Auth0. You'll need 
 - Open the [Applications](https://manage.auth0.com/#/applications) section of the Auth0 Dashboard.
 
 - Click on the **Create Application** button and fill out the form with the following values:
-  - **Name**: `React Authentication on Vercel`
+  - **Name**: `React Authentication on Vercel` _(or whatever you want)_
   - **Application Type**: `Single Page Web Applications`
 - Click on the **Create** button.
 
-> Visit the ["Register Applications"](https://auth0.com/docs/applications/set-up-an-application) document for more details.
+> [!TIP]
+> See the [Register Applications](https://auth0.com/docs/applications/set-up-an-application) documentation for more details.
 
 An Auth0 Application page loads up.
 
-As such, click on the **"Settings"** tab of your Auth0 Application page, locate the **"Application URIs"** section, and fill in the following values:
+Click on the **"Settings"** tab of your Auth0 Application page, locate the **"Application URIs"** section, and fill in the following values:
 
-- **Allowed Callback URLs**: `https://*.vercel.app/callback`
-- **Allowed Logout URLs**: `https://*.vercel.app`
-- **Allowed Web Origins**: `https://*.vercel.app`
+- **Allowed Callback URLs**: `https://*.vercel.app/callback, http://localhost:3000/callback`
+- **Allowed Logout URLs**: `https://*.vercel.app, http://localhost:3000`
+- **Allowed Web Origins**: `https://*.vercel.app, http://localhost:3000`
 
-🚨🚨🚨 **WARNING: Once you have deployed this template, please replace `https://*.vercel.app` with your Vercel deploy URL for better security.** 🚨🚨🚨
+> [!TIP]
+> While not required, we recommend you replace `https://*.vercel.app` with your _actual_ Vercel deploy URL, once you have deployed the app, for better security.**
+>
 
 Scroll down and click the **"Save Changes"** button.
 
@@ -39,12 +46,89 @@ Next, locate the **"Basic Information"** section. You will need the **"Domain"**
 
 Once you click the "Deploy" button, the Vercel deploy workflow will show up. On the **"Configure Project"** section, ensure that you use the following values for the **"Required Environment Variables"**:
 
-- `REACT_APP_AUTH0_DOMAIN` is the value of the **"Domain"** field from the Auth0 settings.
-- `REACT_APP_AUTH0_CLIENT_ID` is the value of the **"Client ID"** field from the Auth0 settings.
+<table>
+  <thead>
+    <tr>
+      <th>Vercel</th>
+      <th></th>
+      <th>Auth0</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tr>
+    <td>
+      <code>VITE_AUTH0_DOMAIN</code>
+    </td>
+    <td style="font-size: 10px; color: red; text-transform: uppercase">
+      required
+    </td>
+    <td>
+      <b>Domain</b>
+    </td>
+    <td>
+      Found in your application's settings or your brand settings (if using custom). <em>If you have <a href="https://auth0.com/docs/customize/custom-domains">configured a custom domain</a>, use that value instead.</em>
+      <br/><sub>*See <a href="https://auth0.com/docs/get-started/applications/application-settings#basic-information">here</a> for more information.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <code>VITE_AUTH0_CLIENT_ID</code>
+    </td>
+    <td style="font-size: 10px; color: red; text-transform: uppercase">
+      required
+    </td>
+    <td>
+      <b>Client ID</b>
+    </td>
+    <td>
+      Found in your application's settings.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <code>VITE_AUTH0_MANAGEMENT_API_DOMAIN</code>
+    </td>
+    <td style="font-size: 10px; color: gray; text-transform: uppercase">
+      optional
+    </td>
+    <td>
+      <b>Domain</b>
+    </td>
+    <td>
+      Found in your application's settings.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <code>VITE_MFA_ENABLED</code>
+    </td>
+    <td style="font-size: 10px; color: gray; text-transform: uppercase">
+      optional
+    </td>
+    <td>
+      <b>Domain</b>
+    </td>
+    <td>
+      Found in your application's settings.
+      <br/>
+      <sub><em>Default value: </em><code>false</code></sub>
+    </td>
+  </tr>
+</table>
+
+> [!CAUTION]
+> `VITE_MFA_ENABLED` will not have any effect unless you also setup the necessary Actions and also configure them to use `acr_values`.
+>
+> Check out [this guide](https://auth0.com/docs/secure/multi-factor-authentication/adaptive-mfa/customize-adaptive-mfa#action-templates) for more information on using Actions to manage MFA.
+> Check out [this guide](https://auth0.com/docs/secure/multi-factor-authentication/step-up-authentication/configure-step-up-authentication-for-web-apps#create-an-action) for more information on how to use `acr_values`.
+>
+> <span style="color: red; font-weight: bold; font-style: italic">Without the proper action code this configuration will have no effect on your user experience!</span>
 
 ## After Deploy
 
-**Remember to replace `https://*.vercel.app` with your Vercel deploy URL in the Auth0 application settings.**
+> [!TIP]
+> **Remember to replace `https://*.vercel.app` with your Vercel deploy URL in the Auth0 application settings!**
+>
 
 ### Use the React Sample Application
 
@@ -54,11 +138,15 @@ If you want to learn **how to implement user authentication in React step by ste
 
 When you click on the **"Log In"** button, React takes you to the [Auth0 Universal Login page](https://auth0.com/docs/login/universal-login). Your users can log in to your application through a page hosted by Auth0, which provides them with a secure, standards-based login experience that you can customize with your own branding and various authentication methods, such as logging in with a username and password or with a social provider like Facebook or Google.
 
-Once you log in, visit the protected **"Profile"** page to see all the user profile information that Auth0 securely shares with your application using [ID tokens](https://auth0.com/docs/security/tokens/id-tokens).
+Once you log in, visit the protected **"Profile"** page to see all the user profile information that Auth0 securely shares with your application using [ID tokens](https://auth0.com/docs/security/tokens/id-tokens) and also available [via the Management API](https://auth0.com/docs/secure/tokens/access-tokens/management-api-access-tokens/get-management-api-tokens-for-single-page-applications).
 
 Click on the **"Log Out"** button and try to access the [Profile page](http://localhost:4040/profile).
 
 If everything is working as expected, React redirects you to log in with Auth0.
+
+> [!NOTE]
+> Normally you would hide this button if `isAuthenticated === false` but, for this demo, we keep it displayed to showcase the ability to have "protected" routes.
+>
 
 ## Why Use Auth0?
 
